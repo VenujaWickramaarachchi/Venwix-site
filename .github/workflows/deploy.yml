@@ -35,6 +35,6 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./dist/
           server-dir: ./public_html/
-          protocol: ftps # NEW: Forces secure, encrypted FTP
-          security: loose # NEW: Prevents SSL errors when using an IP address
-          timeout: 300000 # NEW: Increases the timeout limit to 5 minutes
+          # We removed the 'protocol: ftps' line here to use plain FTP
+          security: loose
+          timeout: 300000
