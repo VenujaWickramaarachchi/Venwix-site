@@ -33,5 +33,8 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./dist/ # CHANGED HERE: Tells GitHub to look for Vite's 'dist' folder
+          local-dir: ./dist/
           server-dir: ./public_html/
+          protocol: ftps # NEW: Forces secure, encrypted FTP
+          security: loose # NEW: Prevents SSL errors when using an IP address
+          timeout: 300000 # NEW: Increases the timeout limit to 5 minutes
