@@ -80,7 +80,11 @@ const VenvixWebsite = () => {
           className='text-2xl font-bold text-white tracking-tighter'
           style={{ fontFamily: 'Outfit, sans-serif' }}
         >
-          Venvix
+          <img
+            src='/logo.png'
+            alt='Brand Logo'
+            className='h-30 w-auto object-contain p-0 -mt-2.5]'
+          />
         </a>
 
         {/* Desktop Links */}
