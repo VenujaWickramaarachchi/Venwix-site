@@ -355,47 +355,61 @@ const Stats = () => {
   )
 }
 
-// --- CTA Section (Includes HubSpot Form) ---
+// --- UPDATED CTA Section ---
 const CTA = ({ setIsCalendlyOpen }) => (
   <motion.section
     id='contact'
     initial='hidden'
     whileInView='visible'
     variants={staggerContainer}
-    className='py-24 px-6 bg-black border-y border-slate-800 relative overflow-hidden'
+    className='relative overflow-hidden py-12 md:py-24 border-y border-slate-800 bg-black'
     viewport={{ once: true }}
   >
     {/* Subtle Red Ambient Glow for CTA Background */}
     <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-red-600/10 blur-[100px] rounded-full pointer-events-none'></div>
 
-    <div className='max-w-4xl mx-auto text-center relative z-10'>
+    <div className='relative mx-auto flex max-w-4xl flex-col items-center gap-6 px-8 text-center sm:gap-8 z-10'>
+      {/* Badge Element translated to Framer Motion */}
+      <motion.div
+        variants={fadeInUp}
+        className='inline-flex items-center rounded-full border border-red-600/30 bg-red-600/10 px-3 py-1 text-sm font-medium text-red-500 backdrop-blur-md'
+      >
+        Let's Connect
+      </motion.div>
+
+      {/* Title */}
       <motion.h2
         variants={fadeInUp}
-        className='text-5xl font-bold text-white mb-6'
+        className='text-3xl font-semibold sm:text-5xl tracking-tight text-white'
         style={{ fontFamily: 'Outfit, sans-serif' }}
       >
         Ready To Grow Online?
       </motion.h2>
-      <motion.p variants={fadeInUp} className='text-xl text-slate-400 mb-10'>
+
+      {/* Description */}
+      <motion.p
+        variants={fadeInUp}
+        className='text-lg text-slate-400 max-w-2xl'
+      >
         Book your free strategy call below, or leave us your details and we'll
         reach out.
       </motion.p>
 
-      {/* CALENDLY TRIGGER BUTTON */}
+      {/* Action Button */}
       <motion.div variants={fadeInUp}>
         <button
           type='button'
           onClick={() => setIsCalendlyOpen(true)}
-          className={`mb-12 text-lg ${btnClassesPrimary}`}
+          className={btnClassesPrimary}
         >
           Open Calendar to Book
         </button>
       </motion.div>
 
-      {/* HUBSPOT FORM */}
+      {/* HubSpot Form */}
       <motion.div
         variants={fadeInUp}
-        className='text-left max-w-2xl mx-auto relative'
+        className='w-full text-left mt-8 relative z-20'
       >
         <HubSpotForm
           region='na2'
@@ -511,11 +525,11 @@ const VenvixWebsite = () => {
 
       <MinimalHero setIsCalendlyOpen={setIsCalendlyOpen} />
 
-      {/* The StorySections component now handles About, Process, and Projects entirely */}
       <StorySections setIsCalendlyOpen={setIsCalendlyOpen} />
 
       <Services />
       <Stats />
+
       <CTA setIsCalendlyOpen={setIsCalendlyOpen} />
       <Footer />
       <WhatsAppButton />
