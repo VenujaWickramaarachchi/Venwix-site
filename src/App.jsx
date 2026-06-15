@@ -468,9 +468,9 @@ const Footer = () => (
   <footer className='bg-slate-950 border-t border-slate-800 py-16 px-6'>
     <div className='max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12'>
       <div>
-        <h3 className='text-white font-semibold text-lg mb-4'>Venvix</h3>
+        <h3 className='text-white font-semibold text-lg mb-4'>Venwix</h3>
         <p className='text-slate-400 text-sm leading-relaxed'>
-          Building The Future Of Small Business.
+          Built for Builders
         </p>
       </div>
       <div>
@@ -536,31 +536,68 @@ const Footer = () => (
         <p className='text-white font-semibold mb-4'>Connect</p>
         <ul className='space-y-3 text-slate-400 text-sm'>
           <li>
-            <span className='hover:text-red-500 cursor-pointer transition-colors'>
-              Twitter
-            </span>
+            <a
+              href='https://www.facebook.com/profile.php?id=61570936300925' // Replace with your actual Twitter/X URL
+              target='_blank'
+              rel='noopener noreferrer'
+              className='hover:text-red-500 cursor-pointer transition-colors block'
+            >
+              Facebook
+            </a>
           </li>
           <li>
-            <span className='hover:text-red-500 cursor-pointer transition-colors'>
+            <a
+              href='https://www.linkedin.com/company/109300011/admin/dashboard/' // Replace with your actual LinkedIn URL
+              target='_blank'
+              rel='noopener noreferrer'
+              className='hover:text-red-500 cursor-pointer transition-colors block'
+            >
               LinkedIn
-            </span>
+            </a>
           </li>
           <li>
-            <span className='hover:text-red-500 cursor-pointer transition-colors'>
+            <a
+              href='https://www.instagram.com/venwix_tech/' // Replace with your actual Instagram URL
+              target='_blank'
+              rel='noopener noreferrer'
+              className='hover:text-red-500 cursor-pointer transition-colors block'
+            >
               Instagram
-            </span>
+            </a>
           </li>
           <li>
-            <span className='hover:text-red-500 cursor-pointer transition-colors'>
-              Email
-            </span>
+            <a
+              href='https://www.tiktok.com/@venwixtech?lang=en' // Replace with your actual Instagram URL
+              target='_blank'
+              rel='noopener noreferrer'
+              className='hover:text-red-500 cursor-pointer transition-colors block'
+            >
+              Tiktok
+            </a>
+          </li>
+          <li>
+            <a
+              href='mailto:hello@venwix.com' // Pulls from your contact email
+              className='hover:text-red-500 cursor-pointer transition-colors block'
+            >
+              Email : hello@venwix.com
+            </a>
+          </li>
+          <li>
+            <a
+              href='tel:+94702643587'
+              className='hover:text-red-500 cursor-pointer transition-colors block'
+            >
+              Phone : +94 70 264 3587
+            </a>
           </li>
         </ul>
       </div>
     </div>
     <div className='border-t border-slate-800 pt-8 text-center text-slate-500 text-sm'>
       <p>
-        © 2024 Venvix. All rights reserved. | Building The Future Of Business.
+        © {new Date().getFullYear()} Venwix. All rights reserved. | Built for
+        the Builders.
       </p>
     </div>
   </footer>
