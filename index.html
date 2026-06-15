@@ -2,16 +2,66 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Venwix</title>
 
+    <!-- 1. STANDARD SEO TITLE & DESCRIPTION -->
+    <title>Venwix | Websites that Work. Worldwide.</title>
+    <meta
+      name="description"
+      content="Your Business Deserves More Than Just A Website. We build e-commerce experiences and growth strategies that help businesses scale online."
+    />
+
+    <!-- 2. GOOGLE SEARCH LOGO (FAVICON) -->
+    <!-- Note: Fixed the type mismatch. Make sure favicon.png is at least 48x48px and square -->
+    <link rel="icon" type="image/png" href="/favicon.png" sizes="48x48" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- 3. OPEN GRAPH (FOR LINK PREVIEWS ON WHATSAPP, LINKEDIN, FACEBOOK) -->
+    <meta property="og:title" content="Venwix | Built for Builders" />
+    <meta
+      property="og:description"
+      content="We build e-commerce experiences and growth strategies that help businesses scale online."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://venwix.com" />
+    <!-- IMPORTANT: Must be an absolute URL -->
+    <meta property="og:image" content="https://venwix.com/og-image.jpg" />
+
+    <!-- 4. TWITTER CARDS -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Venwix | Built for Builders" />
+    <meta
+      name="twitter:description"
+      content="We build e-commerce experiences and growth strategies."
+    />
+    <meta name="twitter:image" content="https://venwix.com/og-image.jpg" />
+
+    <!-- FONTS -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
+
+    <!-- 5. SCHEMA MARKUP (FOR LOCAL BUSINESS SEO) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Venwix",
+        "image": "https://venwix.com/favicon.png",
+        "url": "https://venwix.com",
+        "telephone": "+94 70 264 3587",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Sunil Shantha,Palayangoda,Payagala",
+          "addressLocality": "Kalutara",
+          "postalCode": "12050",
+          "addressCountry": "LK"
+        }
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

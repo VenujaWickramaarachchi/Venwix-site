@@ -1,9 +1,37 @@
+'use client'
+
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { PopupModal } from 'react-calendly'
 
 import MinimalHero from './components/ui/hero-minimalism'
 import StorySections from './components/ui/story-sections'
+
+// --- Shared Utilities ---
+// Custom scroll function to handle smooth scrolling and offset for the fixed navbar
+
+// --- Shared Utilities ---
+const scrollToSection = (e, targetId, callback) => {
+  e.preventDefault()
+  const id = targetId.replace('#', '')
+  const element = document.getElementById(id)
+
+  if (element) {
+    // 100px base offset accounts for the sticky navbar height
+    let yOffset = -100
+
+    // THE FIX: Compensate for the FlowArt sticky "-1" error
+    // If the user clicks one of the FlowArt cards, we push the scroll position down by exactly one viewport height (100vh)
+    if (id === 'about' || id === 'process' || id === 'projects') {
+      yOffset += window.innerHeight
+    }
+
+    const y = element.getBoundingClientRect().top + window.scrollY + yOffset
+    window.scrollTo({ top: y, behavior: 'smooth' })
+  }
+
+  if (callback) callback()
+}
 
 // --- HubSpot Form Component ---
 const HubSpotForm = ({ region, portalId, formId }) => {
@@ -98,18 +126,34 @@ const Navbar = ({ setIsCalendlyOpen }) => {
           />
         </a>
 
-        {/* Desktop Links */}
+        {/* Desktop Links - Updated with scrollToSection */}
         <div className='hidden md:flex items-center gap-8 text-sm font-medium text-slate-300'>
-          <a href='#about' className='hover:text-red-500 transition-colors'>
+          <a
+            href='#about'
+            onClick={(e) => scrollToSection(e, 'about')}
+            className='hover:text-red-500 transition-colors'
+          >
             About
           </a>
-          <a href='#services' className='hover:text-red-500 transition-colors'>
+          <a
+            href='#services'
+            onClick={(e) => scrollToSection(e, 'services')}
+            className='hover:text-red-500 transition-colors'
+          >
             Services
           </a>
-          <a href='#process' className='hover:text-red-500 transition-colors'>
+          <a
+            href='#process'
+            onClick={(e) => scrollToSection(e, 'process')}
+            className='hover:text-red-500 transition-colors'
+          >
             Process
           </a>
-          <a href='#projects' className='hover:text-red-500 transition-colors'>
+          <a
+            href='#projects'
+            onClick={(e) => scrollToSection(e, 'projects')}
+            className='hover:text-red-500 transition-colors'
+          >
             Work
           </a>
         </div>
@@ -154,7 +198,7 @@ const Navbar = ({ setIsCalendlyOpen }) => {
         </button>
       </div>
 
-      {/* Mobile Menu Dropdown */}
+      {/* Mobile Menu Dropdown - Updated with scrollToSection */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -166,18 +210,22 @@ const Navbar = ({ setIsCalendlyOpen }) => {
           >
             <div className='flex flex-col px-6 py-8 gap-6'>
               {[
-                { name: 'About', href: '#about' },
-                { name: 'Services', href: '#services' },
-                { name: 'Process', href: '#process' },
-                { name: 'Work', href: '#projects' },
+                { name: 'About', id: 'about' },
+                { name: 'Services', id: 'services' },
+                { name: 'Process', id: 'process' },
+                { name: 'Work', id: 'projects' },
               ].map((link, i) => (
                 <motion.a
                   key={i}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.1 }}
-                  href={link.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  href={`#${link.id}`}
+                  onClick={(e) =>
+                    scrollToSection(e, link.id, () =>
+                      setIsMobileMenuOpen(false),
+                    )
+                  }
                   className='text-lg font-medium text-slate-300 hover:text-red-500 transition-colors'
                 >
                   {link.name}
@@ -365,11 +413,9 @@ const CTA = ({ setIsCalendlyOpen }) => (
     className='relative overflow-hidden py-12 md:py-24 border-y border-slate-800 bg-black'
     viewport={{ once: true }}
   >
-    {/* Subtle Red Ambient Glow for CTA Background */}
     <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-red-600/10 blur-[100px] rounded-full pointer-events-none'></div>
 
     <div className='relative mx-auto flex max-w-4xl flex-col items-center gap-6 px-8 text-center sm:gap-8 z-10'>
-      {/* Badge Element translated to Framer Motion */}
       <motion.div
         variants={fadeInUp}
         className='inline-flex items-center rounded-full border border-red-600/30 bg-red-600/10 px-3 py-1 text-sm font-medium text-red-500 backdrop-blur-md'
@@ -377,7 +423,6 @@ const CTA = ({ setIsCalendlyOpen }) => (
         Let's Connect
       </motion.div>
 
-      {/* Title */}
       <motion.h2
         variants={fadeInUp}
         className='text-3xl font-semibold sm:text-5xl tracking-tight text-white'
@@ -386,7 +431,6 @@ const CTA = ({ setIsCalendlyOpen }) => (
         Ready To Grow Online?
       </motion.h2>
 
-      {/* Description */}
       <motion.p
         variants={fadeInUp}
         className='text-lg text-slate-400 max-w-2xl'
@@ -395,7 +439,6 @@ const CTA = ({ setIsCalendlyOpen }) => (
         reach out.
       </motion.p>
 
-      {/* Action Button */}
       <motion.div variants={fadeInUp}>
         <button
           type='button'
@@ -406,7 +449,6 @@ const CTA = ({ setIsCalendlyOpen }) => (
         </button>
       </motion.div>
 
-      {/* HubSpot Form */}
       <motion.div
         variants={fadeInUp}
         className='w-full text-left mt-8 relative z-20'
@@ -459,13 +501,22 @@ const Footer = () => (
       <div>
         <p className='text-white font-semibold mb-4'>Company</p>
         <ul className='space-y-3 text-slate-400 text-sm'>
+          {/* Updated Footer Links */}
           <li>
-            <a href='#about' className='hover:text-red-500 transition-colors'>
+            <a
+              href='#about'
+              onClick={(e) => scrollToSection(e, 'about')}
+              className='hover:text-red-500 transition-colors'
+            >
               About
             </a>
           </li>
           <li>
-            <a href='#contact' className='hover:text-red-500 transition-colors'>
+            <a
+              href='#contact'
+              onClick={(e) => scrollToSection(e, 'contact')}
+              className='hover:text-red-500 transition-colors'
+            >
               Contact
             </a>
           </li>

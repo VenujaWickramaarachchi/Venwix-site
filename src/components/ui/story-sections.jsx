@@ -11,21 +11,20 @@ export default function StorySections() {
     { step: 'Grow', desc: 'Data-driven marketing and optimization.' },
   ]
 
-  // Your actual project data with media URLs
   const projects = [
     {
       title: 'ZIE Fashion',
       type: "Digital storefront for ZIE: A Sri Lankan fashion brand merging seamless e-commerce with a powerful women's empowerment movement.",
       status: 'Completed',
-      mediaUrl: '/Projects/zie.png', // Place in your public folder
+      mediaUrl: '/Projects/zie.png',
       isVideo: false,
-      url: 'https://zie.lk/', // Replace with the actual URL
+      url: 'https://zie.lk/',
     },
     {
       title: 'Lactoboost',
       type: "A custom e-commerce platform developed for Lactoboost, Sri Lanka's first and leading lactation food brand dedicated to maternal well-being.",
       status: 'Completed',
-      mediaUrl: '/Projects/lactoboost.png', // Place in your public folder
+      mediaUrl: '/Projects/lactoboost.png',
       isVideo: false,
       url: 'https://lactoboost.lk/',
     },
@@ -33,17 +32,33 @@ export default function StorySections() {
       title: 'Zie Travel',
       type: 'A custom travel booking platform developed for ZIE Travel, designed to inspire wanderlust and effortlessly guide users through planning bespoke trips to Vietnam.',
       status: 'In Development',
-      mediaUrl: '/Projects/zie_travel.png', // Place in your public folder
+      mediaUrl: '/Projects/zie_travel.png',
       isVideo: false,
-      url: 'https://travel-zie.myshopify.com/', // Keep as # until the site goes live
+      url: 'https://travel-zie.myshopify.com/',
     },
   ]
 
   return (
     <div className='bg-black'>
+      {/* Invisible Ghost Anchors for Navbar to target */}
+      <div
+        id='about'
+        className='absolute w-full h-[1px] top-0 pointer-events-none'
+      ></div>
+      <div
+        id='process'
+        className='absolute w-full h-[1px] top-[100vh] pointer-events-none'
+      ></div>
+      <div
+        id='projects'
+        className='absolute w-full h-[1px] top-[200vh] pointer-events-none'
+      ></div>
       <FlowArt>
-        {/* CARD 1: ABOUT */}
-        <FlowSection className='bg-slate-950 border-t border-slate-800'>
+        {/* CARD 1: ABOUT - ID moved to FlowSection */}
+        <FlowSection
+          id='about'
+          className='bg-slate-950 border-t border-slate-800'
+        >
           <div className='max-w-5xl mx-auto w-full text-center'>
             <span className='text-red-500 font-bold tracking-widest text-sm uppercase mb-4 block'>
               01 / The Agency
@@ -67,8 +82,11 @@ export default function StorySections() {
           </div>
         </FlowSection>
 
-        {/* CARD 2: PROCESS */}
-        <FlowSection className='bg-black border-t border-slate-800 shadow-[0_-20px_50px_rgba(0,0,0,0.5)]'>
+        {/* CARD 2: PROCESS - ID moved to FlowSection */}
+        <FlowSection
+          id='process'
+          className='bg-black border-t border-slate-800 shadow-[0_-20px_50px_rgba(0,0,0,0.5)]'
+        >
           <div className='max-w-6xl mx-auto w-full'>
             <span className='text-red-500 font-bold tracking-widest text-sm uppercase mb-4 block text-center'>
               02 / The Methodology
@@ -101,8 +119,11 @@ export default function StorySections() {
           </div>
         </FlowSection>
 
-        {/* CARD 3: PROJECTS */}
-        <FlowSection className='bg-slate-950 border-t border-slate-800 shadow-[0_-20px_50px_rgba(0,0,0,0.5)]'>
+        {/* CARD 3: PROJECTS - ID moved to FlowSection */}
+        <FlowSection
+          id='projects'
+          className='bg-slate-950 border-t border-slate-800 shadow-[0_-20px_50px_rgba(0,0,0,0.5)]'
+        >
           <div className='max-w-6xl mx-auto w-full'>
             <span className='text-red-500 font-bold tracking-widest text-sm uppercase mb-4 block text-center'>
               03 / Our Past Projects
@@ -123,7 +144,6 @@ export default function StorySections() {
                   rel='noopener noreferrer'
                   className='relative group block h-80 rounded-3xl overflow-hidden border border-slate-700/50 hover:border-red-600/50 transition-all duration-500 shadow-lg'
                 >
-                  {/* Media Background - Supports both Image and Video */}
                   {project.isVideo ? (
                     <video
                       autoPlay
@@ -141,11 +161,7 @@ export default function StorySections() {
                       className='absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110'
                     />
                   )}
-
-                  {/* Dark Gradient Overlay for text readability */}
                   <div className='absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/60 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300'></div>
-
-                  {/* Project Details */}
                   <div className='absolute inset-0 p-8 flex flex-col justify-end z-10'>
                     <div className='mb-3'>
                       <span
