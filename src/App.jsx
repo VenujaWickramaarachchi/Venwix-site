@@ -3,15 +3,10 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { PopupModal } from 'react-calendly'
-
-import { BrowserRouter } from 'react-router-dom'
-import AnalyticsTracker from './AnalyticsTracker'
+import ReactGA from 'react-ga4'
 
 import MinimalHero from './components/ui/hero-minimalism'
 import StorySections from './components/ui/story-sections'
-
-// --- Shared Utilities ---
-// Custom scroll function to handle smooth scrolling and offset for the fixed navbar
 
 // --- Shared Utilities ---
 const scrollToSection = (e, targetId, callback) => {
@@ -20,11 +15,8 @@ const scrollToSection = (e, targetId, callback) => {
   const element = document.getElementById(id)
 
   if (element) {
-    // 100px base offset accounts for the sticky navbar height
     let yOffset = -100
 
-    // THE FIX: Compensate for the FlowArt sticky "-1" error
-    // If the user clicks one of the FlowArt cards, we push the scroll position down by exactly one viewport height (100vh)
     if (id === 'about' || id === 'process' || id === 'projects') {
       yOffset += window.innerHeight
     }
@@ -129,7 +121,7 @@ const Navbar = ({ setIsCalendlyOpen }) => {
           />
         </a>
 
-        {/* Desktop Links - Updated with scrollToSection */}
+        {/* Desktop Links */}
         <div className='hidden md:flex items-center gap-8 text-sm font-medium text-slate-300'>
           <a
             href='#about'
@@ -201,7 +193,7 @@ const Navbar = ({ setIsCalendlyOpen }) => {
         </button>
       </div>
 
-      {/* Mobile Menu Dropdown - Updated with scrollToSection */}
+      {/* Mobile Menu Dropdown */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -610,38 +602,42 @@ const Footer = () => (
 const VenvixWebsite = () => {
   const [isCalendlyOpen, setIsCalendlyOpen] = useState(false)
 
+  // Initialize GA4 and track the single page view when the site loads
+  useEffect(() => {
+    // Make sure to replace 'G-YOUR_MEASUREMENT_ID' with your actual GA4 Measurement ID
+    ReactGA.initialize('G-W7P1DVM3NC')
+    ReactGA.send({ hitType: 'pageview', page: window.location.pathname })
+  }, [])
+
   return (
-    <BrowserRouter>
-      <AnalyticsTracker />
-      <div className='bg-black text-white overflow-x-hidden relative selection:bg-red-600/30 selection:text-white'>
-        <Navbar setIsCalendlyOpen={setIsCalendlyOpen} />
+    <div className='bg-black text-white overflow-x-hidden relative selection:bg-red-600/30 selection:text-white'>
+      <Navbar setIsCalendlyOpen={setIsCalendlyOpen} />
 
-        <MinimalHero setIsCalendlyOpen={setIsCalendlyOpen} />
+      <MinimalHero setIsCalendlyOpen={setIsCalendlyOpen} />
 
-        <StorySections setIsCalendlyOpen={setIsCalendlyOpen} />
+      <StorySections setIsCalendlyOpen={setIsCalendlyOpen} />
 
-        <Services />
-        <Stats />
+      <Services />
+      <Stats />
 
-        <CTA setIsCalendlyOpen={setIsCalendlyOpen} />
-        <Footer />
-        <WhatsAppButton />
+      <CTA setIsCalendlyOpen={setIsCalendlyOpen} />
+      <Footer />
+      <WhatsAppButton />
 
-        <PopupModal
-          url='https://calendly.com/venuja071/web-design-development'
-          pageSettings={{
-            backgroundColor: '0f172a',
-            hideEventTypeDetails: false,
-            hideLandingPageDetails: false,
-            primaryColor: 'dc2626',
-            textColor: 'ffffff',
-          }}
-          onModalClose={() => setIsCalendlyOpen(false)}
-          open={isCalendlyOpen}
-          rootElement={document.getElementById('root') || document.body}
-        />
-      </div>
-    </BrowserRouter>
+      <PopupModal
+        url='https://calendly.com/venuja071/web-design-development'
+        pageSettings={{
+          backgroundColor: '0f172a',
+          hideEventTypeDetails: false,
+          hideLandingPageDetails: false,
+          primaryColor: 'dc2626',
+          textColor: 'ffffff',
+        }}
+        onModalClose={() => setIsCalendlyOpen(false)}
+        open={isCalendlyOpen}
+        rootElement={document.getElementById('root') || document.body}
+      />
+    </div>
   )
 }
 
