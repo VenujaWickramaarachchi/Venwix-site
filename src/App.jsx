@@ -4,6 +4,9 @@ import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { PopupModal } from 'react-calendly'
 
+import { BrowserRouter } from 'react-router-dom'
+import AnalyticsTracker from './AnalyticsTracker'
+
 import MinimalHero from './components/ui/hero-minimalism'
 import StorySections from './components/ui/story-sections'
 
@@ -608,34 +611,37 @@ const VenvixWebsite = () => {
   const [isCalendlyOpen, setIsCalendlyOpen] = useState(false)
 
   return (
-    <div className='bg-black text-white overflow-x-hidden relative selection:bg-red-600/30 selection:text-white'>
-      <Navbar setIsCalendlyOpen={setIsCalendlyOpen} />
+    <BrowserRouter>
+      <AnalyticsTracker />
+      <div className='bg-black text-white overflow-x-hidden relative selection:bg-red-600/30 selection:text-white'>
+        <Navbar setIsCalendlyOpen={setIsCalendlyOpen} />
 
-      <MinimalHero setIsCalendlyOpen={setIsCalendlyOpen} />
+        <MinimalHero setIsCalendlyOpen={setIsCalendlyOpen} />
 
-      <StorySections setIsCalendlyOpen={setIsCalendlyOpen} />
+        <StorySections setIsCalendlyOpen={setIsCalendlyOpen} />
 
-      <Services />
-      <Stats />
+        <Services />
+        <Stats />
 
-      <CTA setIsCalendlyOpen={setIsCalendlyOpen} />
-      <Footer />
-      <WhatsAppButton />
+        <CTA setIsCalendlyOpen={setIsCalendlyOpen} />
+        <Footer />
+        <WhatsAppButton />
 
-      <PopupModal
-        url='https://calendly.com/venuja071/web-design-development'
-        pageSettings={{
-          backgroundColor: '0f172a',
-          hideEventTypeDetails: false,
-          hideLandingPageDetails: false,
-          primaryColor: 'dc2626',
-          textColor: 'ffffff',
-        }}
-        onModalClose={() => setIsCalendlyOpen(false)}
-        open={isCalendlyOpen}
-        rootElement={document.getElementById('root') || document.body}
-      />
-    </div>
+        <PopupModal
+          url='https://calendly.com/venuja071/web-design-development'
+          pageSettings={{
+            backgroundColor: '0f172a',
+            hideEventTypeDetails: false,
+            hideLandingPageDetails: false,
+            primaryColor: 'dc2626',
+            textColor: 'ffffff',
+          }}
+          onModalClose={() => setIsCalendlyOpen(false)}
+          open={isCalendlyOpen}
+          rootElement={document.getElementById('root') || document.body}
+        />
+      </div>
+    </BrowserRouter>
   )
 }
 
