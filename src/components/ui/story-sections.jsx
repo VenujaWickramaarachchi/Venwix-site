@@ -40,19 +40,6 @@ export default function StorySections() {
 
   return (
     <div className='bg-black'>
-      {/* Invisible Ghost Anchors for Navbar to target */}
-      <div
-        id='about'
-        className='absolute w-full h-[1px] top-0 pointer-events-none'
-      ></div>
-      <div
-        id='process'
-        className='absolute w-full h-[1px] top-[100vh] pointer-events-none'
-      ></div>
-      <div
-        id='projects'
-        className='absolute w-full h-[1px] top-[200vh] pointer-events-none'
-      ></div>
       <FlowArt>
         {/* CARD 1: ABOUT - ID moved to FlowSection */}
         <FlowSection
@@ -102,7 +89,7 @@ export default function StorySections() {
               {processSteps.map((item, i) => (
                 <div
                   key={i}
-                  className='bg-slate-900/50 p-8 rounded-3xl border border-slate-800 hover:border-red-600/30 transition-colors'
+                  className='process-card-premium bg-slate-900/50 p-8 rounded-3xl border border-slate-800 hover:border-red-600/30 transition-colors'
                 >
                   <div className='w-16 h-16 rounded-2xl bg-red-600/10 border border-red-600/30 flex items-center justify-center mb-8 shadow-[0_0_20px_rgba(220,38,38,0.15)]'>
                     <span className='text-red-500 font-bold text-2xl'>
@@ -142,7 +129,7 @@ export default function StorySections() {
                   href={project.url}
                   target={project.url !== '#' ? '_blank' : '_self'}
                   rel='noopener noreferrer'
-                  className='relative group block h-80 rounded-3xl overflow-hidden border border-slate-700/50 hover:border-red-600/50 transition-all duration-500 shadow-lg'
+                  className='project-card-premium relative group block h-80 rounded-3xl overflow-hidden border border-slate-700/50 hover:border-red-600/50 transition-all duration-500 shadow-lg'
                 >
                   {project.isVideo ? (
                     <video
@@ -150,7 +137,7 @@ export default function StorySections() {
                       loop
                       muted
                       playsInline
-                      className='absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110'
+                      className='absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105'
                     >
                       <source src={project.mediaUrl} type='video/mp4' />
                     </video>
@@ -158,7 +145,7 @@ export default function StorySections() {
                     <img
                       src={project.mediaUrl}
                       alt={project.title}
-                      className='absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110'
+                      className='absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105'
                     />
                   )}
                   <div className='absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/60 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300'></div>

@@ -4,25 +4,50 @@ import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { PopupModal } from 'react-calendly'
 import ReactGA from 'react-ga4'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 import MinimalHero from './components/ui/hero-minimalism'
 import StorySections from './components/ui/story-sections'
 
 // --- Shared Utilities ---
 const scrollToSection = (e, targetId, callback) => {
-  e.preventDefault()
+  if (e) e.preventDefault()
   const id = targetId.replace('#', '')
-  const element = document.getElementById(id)
+  
+  let scrollTargetY = null
 
-  if (element) {
-    let yOffset = -100
-
-    if (id === 'about' || id === 'process' || id === 'projects') {
-      yOffset += window.innerHeight
+  try {
+    if (id === 'about') {
+      const trigger = ScrollTrigger.getById('pin-about')
+      if (trigger) {
+        scrollTargetY = trigger.start
+      }
+    } else if (id === 'process') {
+      const trigger = ScrollTrigger.getById('pin-about')
+      if (trigger) {
+        scrollTargetY = trigger.end
+      }
+    } else if (id === 'projects') {
+      const trigger = ScrollTrigger.getById('pin-process')
+      if (trigger) {
+        scrollTargetY = trigger.end
+      }
     }
+  } catch (err) {
+    console.error('Error getting ScrollTrigger target:', err)
+  }
 
-    const y = element.getBoundingClientRect().top + window.scrollY + yOffset
-    window.scrollTo({ top: y, behavior: 'smooth' })
+  // Fallback to standard offset scroll if ScrollTrigger is not ready or fails
+  if (scrollTargetY === null || isNaN(scrollTargetY)) {
+    const element = document.getElementById(id)
+    if (element) {
+      const yOffset = -80 // Navigation header spacing
+      scrollTargetY = element.getBoundingClientRect().top + window.scrollY + yOffset
+    }
+  }
+
+  if (scrollTargetY !== null && !isNaN(scrollTargetY)) {
+    window.scrollTo({ top: scrollTargetY, behavior: 'smooth' })
   }
 
   if (callback) callback()
@@ -31,29 +56,45 @@ const scrollToSection = (e, targetId, callback) => {
 // --- HubSpot Form Component ---
 const HubSpotForm = ({ region, portalId, formId }) => {
   useEffect(() => {
-    const existingScript = document.getElementById('hs-script-loader')
-    if (!existingScript) {
-      const script = document.createElement('script')
-      script.src = 'https://js.hsforms.net/forms/v2.js'
-      script.id = 'hs-script-loader'
-      document.body.appendChild(script)
-      script.addEventListener('load', () => {
-        if (window.hbspt) {
-          window.hbspt.forms.create({
-            region: region,
-            portalId: portalId,
-            formId: formId,
-            target: '#hubspotForm',
-          })
+    const initForm = () => {
+      if (window.hbspt) {
+        const container = document.getElementById('hubspotForm')
+        if (container) {
+          container.innerHTML = ''
         }
-      })
-    } else if (window.hbspt) {
-      window.hbspt.forms.create({
-        region: region,
-        portalId: portalId,
-        formId: formId,
-        target: '#hubspotForm',
-      })
+        window.hbspt.forms.create({
+          region: region,
+          portalId: portalId,
+          formId: formId,
+          target: '#hubspotForm',
+        })
+        return true
+      }
+      return false
+    }
+
+    if (window.hbspt) {
+      initForm()
+    } else {
+      const existingScript = document.getElementById('hs-forms-v2-script')
+      if (!existingScript) {
+        const script = document.createElement('script')
+        script.src = 'https://js.hsforms.net/forms/v2.js'
+        script.id = 'hs-forms-v2-script'
+        script.async = true
+        script.onload = () => {
+          initForm()
+        }
+        document.body.appendChild(script)
+      } else {
+        const interval = setInterval(() => {
+          if (window.hbspt) {
+            initForm()
+            clearInterval(interval)
+          }
+        }, 100)
+        return () => clearInterval(interval)
+      }
     }
   }, [region, portalId, formId])
 
@@ -80,9 +121,9 @@ const staggerContainer = {
 
 // --- Common Button Styles ---
 const btnClassesPrimary =
-  'px-8 py-3.5 bg-red-600 text-white font-semibold rounded-full hover:bg-red-500 transition-all duration-300 shadow-[0_4px_20px_-5px_rgba(220,38,38,0.4)] hover:shadow-[0_10px_25px_-5px_rgba(220,38,38,0.6)] hover:-translate-y-0.5'
+  'btn-cta-premium px-8 py-3.5 bg-red-600 text-white font-semibold rounded-full hover:bg-red-500 shadow-[0_4px_20px_-5px_rgba(220,38,38,0.4)]'
 const btnClassesSmall =
-  'px-6 py-2.5 bg-red-600 text-white font-semibold rounded-full hover:bg-red-500 transition-all duration-300 shadow-[0_4px_15px_-3px_rgba(220,38,38,0.4)] hover:-translate-y-0.5'
+  'btn-cta-premium px-6 py-2.5 bg-red-600 text-white font-semibold rounded-full hover:bg-red-500 shadow-[0_4px_15px_-3px_rgba(220,38,38,0.4)]'
 
 // --- Navigation Bar ---
 const Navbar = ({ setIsCalendlyOpen }) => {
@@ -117,7 +158,7 @@ const Navbar = ({ setIsCalendlyOpen }) => {
           <img
             src='/logo.png'
             alt='Brand Logo'
-            className='h-20 w-auto object-contain p-0 -mt-4'
+            className='h-28 md:h-32 w-auto object-contain p-0 -my-6 md:-my-8 transition-transform duration-300'
           />
         </a>
 
@@ -126,28 +167,28 @@ const Navbar = ({ setIsCalendlyOpen }) => {
           <a
             href='#about'
             onClick={(e) => scrollToSection(e, 'about')}
-            className='hover:text-red-500 transition-colors'
+            className='nav-link-premium hover:text-red-500 transition-colors'
           >
             About
           </a>
           <a
             href='#services'
             onClick={(e) => scrollToSection(e, 'services')}
-            className='hover:text-red-500 transition-colors'
+            className='nav-link-premium hover:text-red-500 transition-colors'
           >
             Services
           </a>
           <a
             href='#process'
             onClick={(e) => scrollToSection(e, 'process')}
-            className='hover:text-red-500 transition-colors'
+            className='nav-link-premium hover:text-red-500 transition-colors'
           >
             Process
           </a>
           <a
             href='#projects'
             onClick={(e) => scrollToSection(e, 'projects')}
-            className='hover:text-red-500 transition-colors'
+            className='nav-link-premium hover:text-red-500 transition-colors'
           >
             Work
           </a>
@@ -319,8 +360,8 @@ const Services = () => {
             <motion.div
               key={i}
               variants={fadeInUp}
-              whileHover={{ y: -8 }}
-              className='bg-gradient-to-br from-slate-900 to-slate-800 p-8 rounded-2xl border border-slate-700/50 hover:border-red-600/30 transition-colors'
+              whileHover={{ y: -4 }}
+              className='service-card-premium bg-gradient-to-br from-slate-900 to-slate-800 p-8 rounded-2xl border border-slate-700/50 hover:border-red-600/30 transition-colors'
             >
               <div className='w-12 h-12 bg-red-600/20 rounded-xl mb-6 flex items-center justify-center'>
                 <div className='w-6 h-6 bg-red-600 rounded-md shadow-[0_0_15px_rgba(220,38,38,0.5)]'></div>
@@ -510,22 +551,39 @@ const Footer = () => (
           </li>
           <li>
             <a
+              href='#services'
+              onClick={(e) => scrollToSection(e, 'services')}
+              className='hover:text-red-500 transition-colors'
+            >
+              Services
+            </a>
+          </li>
+          <li>
+            <a
+              href='#process'
+              onClick={(e) => scrollToSection(e, 'process')}
+              className='hover:text-red-500 transition-colors'
+            >
+              Process
+            </a>
+          </li>
+          <li>
+            <a
+              href='#projects'
+              onClick={(e) => scrollToSection(e, 'projects')}
+              className='hover:text-red-500 transition-colors'
+            >
+              Work
+            </a>
+          </li>
+          <li>
+            <a
               href='#contact'
               onClick={(e) => scrollToSection(e, 'contact')}
               className='hover:text-red-500 transition-colors'
             >
               Contact
             </a>
-          </li>
-          <li>
-            <span className='hover:text-red-500 cursor-pointer transition-colors'>
-              Blog
-            </span>
-          </li>
-          <li>
-            <span className='hover:text-red-500 cursor-pointer transition-colors'>
-              Privacy
-            </span>
           </li>
         </ul>
       </div>

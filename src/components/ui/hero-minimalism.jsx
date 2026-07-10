@@ -330,15 +330,15 @@ export default function MinimalHero({ setIsCalendlyOpen }) {
           font-weight: 600;
           border-radius: 9999px;
           cursor: pointer;
-          transition: all 0.3s ease;
+          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
           border: none;
           font-size: 16px;
           box-shadow: 0 4px 20px -5px rgba(220, 38, 38, 0.4);
         }
         .btn-primary:hover {
           background: var(--accent-hover);
-          transform: translateY(-2px);
-          box-shadow: 0 10px 25px -5px rgba(220, 38, 38, 0.6);
+          transform: translateY(-2px) scale(1.025);
+          box-shadow: 0 12px 30px -5px rgba(220, 38, 38, 0.6), 0 0 15px 2px rgba(220, 38, 38, 0.3);
         }
         .btn-secondary {
           display: inline-flex;
@@ -350,14 +350,16 @@ export default function MinimalHero({ setIsCalendlyOpen }) {
           font-weight: 500;
           border-radius: 9999px;
           cursor: pointer;
-          transition: all 0.2s ease;
+          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
           border: 1px solid rgba(255,255,255,0.15);
           font-size: 16px;
           text-decoration: none;
         }
         .btn-secondary:hover {
           background: rgba(255,255,255,0.1);
-          border-color: rgba(255,255,255,0.3);
+          border-color: rgba(255,255,255,0.4);
+          transform: translateY(-2px) scale(1.025);
+          box-shadow: 0 12px 25px -10px rgba(0, 0, 0, 0.5);
         }
 
         /* Tech Stack / Partners Area */

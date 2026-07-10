@@ -12,15 +12,19 @@ function cx(...parts) {
 }
 
 export const FlowSection = ({
+  id,
   className,
   style = {},
   children,
   'aria-label': ariaLabel,
+  ...props
 }) => (
   <section
+    id={id}
     data-flow-section
     aria-label={ariaLabel}
     className={cx('relative min-h-screen w-full overflow-hidden', className)}
+    {...props}
   >
     <div
       data-flow-inner
@@ -76,6 +80,7 @@ const FlowArt = ({
             rotation: 0,
             ease: 'none',
             scrollTrigger: {
+              id: `section-tween-${section.id || i}`,
               trigger: section,
               start: 'top bottom',
               end: 'top 25%',
@@ -88,6 +93,7 @@ const FlowArt = ({
         if (i < sections.length - 1) {
           triggers.push(
             ScrollTrigger.create({
+              id: `pin-${section.id || i}`,
               trigger: section,
               start: 'bottom bottom',
               end: 'bottom top',

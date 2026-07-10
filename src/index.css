@@ -1,1 +1,65 @@
 @import 'tailwindcss';
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Premium Navigation Links Underline Grow and Hover Lift */
+.nav-link-premium {
+  position: relative;
+  transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nav-link-premium::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 1.5px;
+  bottom: -4px;
+  left: 0;
+  background-color: #dc2626; /* match brand red-600 */
+  transform-origin: bottom right;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nav-link-premium:hover {
+  color: #ef4444 !important; /* brand red-500 */
+  transform: translateY(-1px);
+}
+.nav-link-premium:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+/* Premium CTA button hover state */
+.btn-cta-premium {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s ease, border-color 0.4s ease !important;
+}
+.btn-cta-premium:hover {
+  transform: translateY(-2px) scale(1.025) !important;
+  box-shadow: 0 12px 30px -5px rgba(220, 38, 38, 0.6), 0 0 15px 2px rgba(220, 38, 38, 0.3) !important;
+}
+
+/* Premium Action Cards */
+.process-card-premium, .service-card-premium {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.process-card-premium:hover, .service-card-premium:hover {
+  transform: translateY(-4px) !important;
+  border-color: rgba(220, 38, 38, 0.3) !important;
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), 0 0 15px rgba(220, 38, 38, 0.05) !important;
+}
+
+.project-card-premium {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.5s ease, box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.project-card-premium:hover {
+  transform: translateY(-4px) !important;
+  border-color: rgba(220, 38, 38, 0.5) !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 20px rgba(220, 38, 38, 0.15) !important;
+}
+.project-card-premium img, .project-card-premium video {
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.project-card-premium:hover img, .project-card-premium:hover video {
+  transform: scale(1.05) !important; /* Premium subtle image zoom */
+}
