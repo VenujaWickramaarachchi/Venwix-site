@@ -216,11 +216,13 @@ const Navbar = ({ setIsCalendlyOpen }) => {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.1 }}
                   href={`#${link.id}`}
-                  onClick={(e) =>
-                    scrollToSection(e, link.id, () =>
-                      setIsMobileMenuOpen(false),
-                    )
-                  }
+                  onClick={(e) => {
+                    // FIX: Close the menu first, then trigger the scroll function with a tiny delay
+                    setIsMobileMenuOpen(false)
+                    setTimeout(() => {
+                      scrollToSection(e, link.id)
+                    }, 50)
+                  }}
                   className='text-lg font-medium text-slate-300 hover:text-red-500 transition-colors'
                 >
                   {link.name}
@@ -618,7 +620,6 @@ const VenvixWebsite = () => {
       <StorySections setIsCalendlyOpen={setIsCalendlyOpen} />
 
       <Services />
-      <Stats />
 
       <CTA setIsCalendlyOpen={setIsCalendlyOpen} />
       <Footer />
