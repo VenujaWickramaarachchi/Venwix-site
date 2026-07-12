@@ -657,9 +657,91 @@ const Footer = () => (
   </footer>
 )
 
+// --- Page Loader Component ---
+const PageLoader = () => (
+  <motion.div
+    className='fixed inset-0 bg-slate-950 z-[9999] flex flex-col items-center justify-center'
+    initial={{ opacity: 1 }}
+    exit={{ opacity: 0, transition: { duration: 0.6, ease: 'easeInOut' } }}
+  >
+    <div className='relative flex flex-col items-center gap-6'>
+      {/* Background glow matching brand style */}
+      <div className='absolute w-40 h-40 bg-red-600/10 rounded-full blur-3xl' />
+
+      {/* Favicon Icon */}
+      <motion.div
+        animate={{
+          scale: [0.98, 1.02, 0.98],
+        }}
+        transition={{
+          duration: 2,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
+        className='relative z-10'
+      >
+        <img
+          src='/favicon-v2.png'
+          alt='Venwix Favicon'
+          className='w-16 h-16 object-contain drop-shadow-[0_0_15px_rgba(239,68,68,0.3)]'
+        />
+      </motion.div>
+
+      {/* Progress Loading Bar */}
+      <div className='w-32 h-1 bg-slate-800 rounded-full overflow-hidden relative z-10'>
+        <motion.div
+          className='h-full bg-gradient-to-r from-red-600 to-red-500'
+          initial={{ width: '0%' }}
+          animate={{ width: '100%' }}
+          transition={{
+            duration: 1.8,
+            ease: 'easeInOut',
+          }}
+        />
+      </div>
+
+      {/* Brand Tagline */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3, duration: 0.8 }}
+        className='relative z-10 text-center mt-2'
+      >
+        <h2
+          className='text-xs uppercase tracking-[0.25em] text-slate-400 font-medium'
+          style={{ fontFamily: 'Outfit, sans-serif' }}
+        >
+          Built for the Builders
+        </h2>
+      </motion.div>
+    </div>
+  </motion.div>
+)
+
 // --- Main App Wrapper ---
 const VenvixWebsite = () => {
   const [isCalendlyOpen, setIsCalendlyOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+
+  // Manage body scroll during loading
+  useEffect(() => {
+    if (isLoading) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [isLoading])
+
+  // Hide loader after a short delay
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 2000)
+    return () => clearTimeout(timer)
+  }, [])
 
   // Initialize GA4 and track the single page view when the site loads
   useEffect(() => {
@@ -669,34 +751,41 @@ const VenvixWebsite = () => {
   }, [])
 
   return (
-    <div className='bg-black text-white overflow-x-hidden relative selection:bg-red-600/30 selection:text-white'>
-      <Navbar setIsCalendlyOpen={setIsCalendlyOpen} />
+    <>
+      <AnimatePresence>
+        {isLoading && <PageLoader />}
+      </AnimatePresence>
 
-      <MinimalHero setIsCalendlyOpen={setIsCalendlyOpen} />
+      <div className='bg-black text-white overflow-x-hidden relative selection:bg-red-600/30 selection:text-white'>
+        <Navbar setIsCalendlyOpen={setIsCalendlyOpen} />
 
-      <StorySections setIsCalendlyOpen={setIsCalendlyOpen} />
+        <MinimalHero setIsCalendlyOpen={setIsCalendlyOpen} />
 
-      <Services />
+        <StorySections setIsCalendlyOpen={setIsCalendlyOpen} />
 
-      <CTA setIsCalendlyOpen={setIsCalendlyOpen} />
-      <Footer />
-      <WhatsAppButton />
+        <Services />
 
-      <PopupModal
-        url='https://calendly.com/venuja071/web-design-development'
-        pageSettings={{
-          backgroundColor: '0f172a',
-          hideEventTypeDetails: false,
-          hideLandingPageDetails: false,
-          primaryColor: 'dc2626',
-          textColor: 'ffffff',
-        }}
-        onModalClose={() => setIsCalendlyOpen(false)}
-        open={isCalendlyOpen}
-        rootElement={document.getElementById('root') || document.body}
-      />
-    </div>
+        <CTA setIsCalendlyOpen={setIsCalendlyOpen} />
+        <Footer />
+        <WhatsAppButton />
+
+        <PopupModal
+          url='https://calendly.com/venuja071/web-design-development'
+          pageSettings={{
+            backgroundColor: '0f172a',
+            hideEventTypeDetails: false,
+            hideLandingPageDetails: false,
+            primaryColor: 'dc2626',
+            textColor: 'ffffff',
+          }}
+          onModalClose={() => setIsCalendlyOpen(false)}
+          open={isCalendlyOpen}
+          rootElement={document.getElementById('root') || document.body}
+        />
+      </div>
+    </>
   )
 }
 
 export default VenvixWebsite
+
