@@ -34,7 +34,7 @@ export default function StorySections() {
       status: 'In Development',
       mediaUrl: '/Projects/zie_travel.png',
       isVideo: false,
-      url: 'https://travel-zie.myshopify.com/',
+      url: 'https://www.zietravel.com/',
     },
   ]
 
